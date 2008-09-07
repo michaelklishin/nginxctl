@@ -65,8 +65,7 @@ class NginxCtl(object):
     Returns Nginx pid
     """
     pidfile = open(self._pid_file_path)
-    pid     = pidfile.read()
-    pid     = pid.strip()
+    pid     = pidfile.read().strip()
     pidfile.close()
 
     return pid
