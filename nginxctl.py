@@ -28,7 +28,7 @@ class NginxCtl(object):
     
     if command == "start":
       cmd2run = "sudo %s" % self._bin_file_path
-    elif command == "restart":
+    elif command == "reload":
       cmd2run = self.signal_command("HUP")
     elif command == "stop":
       cmd2run = self.signal_command("QUIT")
@@ -39,7 +39,7 @@ class NginxCtl(object):
     elif command == "upgrade-executable":
       cmd2run = self.signal_command("USR2")
     elif command == None:
-      self.quit("Commands are start, restart, stop, force-stop, reopen-log, upgrade-executable")
+      self.quit("Commands are start, reload, stop, force-stop, reopen-log, upgrade-executable")
     else:
       self.quit("Unknown command %s" % command)
     
