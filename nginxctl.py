@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import os
 from os import system
 
 class NginxCtl(object):
@@ -9,23 +10,23 @@ class NginxCtl(object):
   """
 
   def __init__(self,
-               pid_file_path = "logs/nginx.pid",
-               bin_file_path = "sbin/nginx"):
+               pid_file_path,
+               bin_file_path):
     """
     Arguments:
-    
+
     pid_file_path: Nginx pid file path
     bin_file_path: Nginx bin file path
     """
     self._pid_file_path = pid_file_path
     self._bin_file_path = bin_file_path
-    
+
   def run(self, command):
     """
     Runs the command
     """
     cmd2run = ""
-    
+
     if command == "start":
       cmd2run = "sudo %s" % self._bin_file_path
     elif command == "reload":
@@ -42,7 +43,7 @@ class NginxCtl(object):
       self.quit("Commands are start, reload, stop, force-stop, reopen-log, upgrade-executable")
     else:
       self.quit("Unknown command %s" % command)
-    
+
     print "Executing %s" % cmd2run
     system(cmd2run)
 
@@ -71,12 +72,12 @@ class NginxCtl(object):
     return pid
 
 
-ctl = NginxCtl(pid_file_path = "/usr/local/nginx/logs/nginx.pid",
-               bin_file_path = "/usr/local/nginx/sbin/nginx")
+ctl = NginxCtl(pid_file_path = os.environ["NGINX_PID_FILE"],
+               bin_file_path = os.environ["NGINX_BIN_FILE"])
 
 try:
   command = sys.argv[1]
 except:
   command = None
 
-ctl.run(command) 
+ctl.run(command)
