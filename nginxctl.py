@@ -72,8 +72,18 @@ class NginxCtl(object):
     return pid
 
 
-ctl = NginxCtl(pid_file_path = os.environ["NGINX_PID_FILE"],
-               bin_file_path = os.environ["NGINX_BIN_FILE"])
+try:
+  os.path.abspath(os.environ["NGINX_PID_FILE"])
+except KeyError:
+  print("NGINX_PID_FILE environment variable is not set. It should point to Nginx pid file location. Known variables are %s" % os.environ.keys())
+
+try:
+  os.path.abspath(os.environ["NGINX_BIN_FILE"])
+except KeyError:
+  print("NGINX_BIN_FILE environment variable is not set. It should point to Nginx binary location. Known variables are %s" % os.environ.keys())
+
+ctl = NginxCtl(pid_file_path = os.path.abspath(os.environ["NGINX_PID_FILE"]),
+               bin_file_path = os.path.abspath(os.environ["NGINX_BIN_FILE"]))
 
 try:
   command = sys.argv[1]
