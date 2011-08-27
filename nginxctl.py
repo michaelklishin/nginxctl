@@ -35,6 +35,8 @@ class NginxCtl(object):
       cmd2run = self.signal_command("QUIT")
     elif command == "force-stop":
       cmd2run = self.signal_command("INT")
+    elif command == "test-configuration":
+      cmd2run = ("%s -t" % self._bin_file_path)
     elif command == "reopen-log":
       cmd2run = self.signal_command("USR1")
     elif command == "upgrade-executable":
